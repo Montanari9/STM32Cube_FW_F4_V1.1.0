@@ -860,7 +860,8 @@ HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef* hadc)
   hadc->Instance->CR2 &= ~ADC_CR2_DMA;
   
   /* Disable the ADC DMA Stream */
-  HAL_DMA_Abort(hadc->DMA_Handle);
+  if(HAL_DMA_Abort(hadc->DMA_Handle) == HAL_TIMEOUT)
+   return HAL_ERROR;
   
   /* Change ADC state */
   hadc->State = HAL_ADC_STATE_READY;
